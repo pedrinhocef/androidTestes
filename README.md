@@ -7,5 +7,6 @@ App desenvolvido com testes automatizados Junit e TDD.
 - TDD
 # link do curso  
 https://cursos.alura.com.br/course/android-testes-automatizados-tdd
-# Certificado do curso
-https://cursos.alura.com.br/career/certificate/13ea79a6-e10e-404b-85d8-533750189161
+# Certificados Alura
+https://cursos.alura.com.br/user/pedrinhocef/fullCertificate/fc095b4f8d0d50d30b1afedbf74fcff1
+
