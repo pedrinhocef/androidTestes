@@ -6,15 +6,15 @@ import static org.junit.Assert.*;
 
 public class LeilaoTest {
 
+    private final Leilao CONSOLE = new Leilao("Console");
+    private final Usuario PEDRO = new Usuario("PEDRO");
+
     @Test
     public void getDescricaoQuandoRecebeDescricaoDevolveDescricao() {
-        //Cenário de teste
-
-        Leilao leilao = new Leilao("Console");
 
         //Executar ação esperada
 
-        String descricaoDevolvida = leilao.getDescricao();
+        String descricaoDevolvida = CONSOLE.getDescricao();
 
         //Teste ação esperada
 
@@ -24,11 +24,10 @@ public class LeilaoTest {
     @Test
     public void getMaiorLanceQuandoRecebeUmLanceDevolveMaiorLance() {
         //Cenário de teste
-        Leilao console = new Leilao("console");
-        console.propoe(new Lance(new Usuario("joao"), 500.00));
+        CONSOLE.propoe(new Lance(PEDRO, 500.00));
 
         //Executar ação esperada
-        double maiorLanceEsperado = console.getMaiorLance();
+        double maiorLanceEsperado = CONSOLE.getMaiorLance();
 
         double maiorEsperado = 500.00;
         double delta = 0.0001;
@@ -39,13 +38,11 @@ public class LeilaoTest {
 
     @Test
     public void getMaiorLanceQuandoRecebeMaisDeUmLanceEmOrdemCrescenteDevolveMaiorLance() {
-        //Cenário de teste
-        Leilao console = new Leilao("console");
-        console.propoe(new Lance(new Usuario("joao"), 100.00));
-        console.propoe(new Lance(new Usuario("joao"), 500.00));
+        CONSOLE.propoe(new Lance(PEDRO, 100.00));
+        CONSOLE.propoe(new Lance(new Usuario("PEDRO"), 500.00));
 
         //Executar ação esperada
-        double maiorLanceEsperado = console.getMaiorLance();
+        double maiorLanceEsperado = CONSOLE.getMaiorLance();
 
         double maiorEsperado = 500.00;
         double delta = 0.0001;
@@ -56,20 +53,64 @@ public class LeilaoTest {
     }
 
     @Test
-    public void getMaiorLanceQuandoRecebeMaisDeUmLanceEmOrdemDecrescenteDevolveMaiorLAnce() {
-        //Cenário de teste
-        Leilao console = new Leilao("console");
-        console.propoe(new Lance(new Usuario("joao"), 800.00));
-        console.propoe(new Lance(new Usuario("joao"), 500.00));
+    public void getMaiorLanceQuandoRecebeMaisDeUmLanceEmOrdemDecrescenteDevolveMaiorLance() {
+        CONSOLE.propoe(new Lance(PEDRO, 800.00));
+        CONSOLE.propoe(new Lance(new Usuario("PEDRO"), 500.00));
 
         //Executar ação esperada
-        double maiorLanceEsperado = console.getMaiorLance();
+        double maiorLanceEsperado = CONSOLE.getMaiorLance();
 
         double maiorEsperado = 800.00;
         double delta = 0.0001;
 
         //Teste ação esperada
         assertEquals(maiorEsperado, maiorLanceEsperado, delta);
+
+    }
+
+    @Test
+    public void getMenorLanceQuandoRecebeUmLanceDevolveMenorLance() {
+        CONSOLE.propoe(new Lance(PEDRO, 100.00));
+
+        //Executar ação esperada
+        double menorLanceDevolvido = CONSOLE.getMenorLance();
+
+        double menorEsperado = 100.00;
+        double delta = 0.0001;
+
+        //Teste ação esperada
+        assertEquals(menorEsperado, menorLanceDevolvido, delta);
+    }
+
+    @Test
+    public void getMenorLanceQuandoRecebeMaisDeUmLanceEmOrdemCrescenteDevolveMenorLance() {
+        CONSOLE.propoe(new Lance(PEDRO, 100.00));
+        CONSOLE.propoe(new Lance(new Usuario("PEDRO"), 500.00));
+
+        //Executar ação esperada
+        double menorLanceEsperado = CONSOLE.getMenorLance();
+
+        double maenorEsperado = 100.00;
+        double delta = 0.0001;
+
+        //Teste ação esperada
+        assertEquals(maenorEsperado, menorLanceEsperado, delta);
+
+    }
+
+    @Test
+    public void getMenorLanceQuandoRecebeMaisDeUmLanceEmOrdemDecrescenteDevolveMenorLance() {
+        CONSOLE.propoe(new Lance(PEDRO, 800.00));
+        CONSOLE.propoe(new Lance(new Usuario("PEDRO"), 500.00));
+
+        //Executar ação esperada
+        double menorLanceEsperado = CONSOLE.getMenorLance();
+
+        double menorLance = 500.00;
+        double delta = 0.0001;
+
+        //Teste ação esperada
+        assertEquals(menorLance, menorLanceEsperado, delta);
 
     }
 }
