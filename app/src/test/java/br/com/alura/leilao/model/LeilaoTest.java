@@ -2,10 +2,13 @@ package br.com.alura.leilao.model;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class LeilaoTest {
 
+    private static final double DELTA = 0.0001;
     private final Leilao CONSOLE = new Leilao("Console");
     private final Usuario PEDRO = new Usuario("PEDRO");
 
@@ -30,10 +33,9 @@ public class LeilaoTest {
         double maiorLanceEsperado = CONSOLE.getMaiorLance();
 
         double maiorEsperado = 500.00;
-        double delta = 0.0001;
 
         //Teste ação esperada
-        assertEquals(maiorEsperado, maiorLanceEsperado, delta);
+        assertEquals(maiorEsperado, maiorLanceEsperado, DELTA);
     }
 
     @Test
@@ -45,10 +47,9 @@ public class LeilaoTest {
         double maiorLanceEsperado = CONSOLE.getMaiorLance();
 
         double maiorEsperado = 500.00;
-        double delta = 0.0001;
 
         //Teste ação esperada
-        assertEquals(maiorEsperado, maiorLanceEsperado, delta);
+        assertEquals(maiorEsperado, maiorLanceEsperado, DELTA);
 
     }
 
@@ -61,10 +62,9 @@ public class LeilaoTest {
         double maiorLanceEsperado = CONSOLE.getMaiorLance();
 
         double maiorEsperado = 800.00;
-        double delta = 0.0001;
 
         //Teste ação esperada
-        assertEquals(maiorEsperado, maiorLanceEsperado, delta);
+        assertEquals(maiorEsperado, maiorLanceEsperado, DELTA);
 
     }
 
@@ -76,10 +76,9 @@ public class LeilaoTest {
         double menorLanceDevolvido = CONSOLE.getMenorLance();
 
         double menorEsperado = 100.00;
-        double delta = 0.0001;
 
         //Teste ação esperada
-        assertEquals(menorEsperado, menorLanceDevolvido, delta);
+        assertEquals(menorEsperado, menorLanceDevolvido, DELTA);
     }
 
     @Test
@@ -91,10 +90,9 @@ public class LeilaoTest {
         double menorLanceEsperado = CONSOLE.getMenorLance();
 
         double maenorEsperado = 100.00;
-        double delta = 0.0001;
 
         //Teste ação esperada
-        assertEquals(maenorEsperado, menorLanceEsperado, delta);
+        assertEquals(maenorEsperado, menorLanceEsperado, DELTA);
 
     }
 
@@ -107,10 +105,23 @@ public class LeilaoTest {
         double menorLanceEsperado = CONSOLE.getMenorLance();
 
         double menorLance = 500.00;
-        double delta = 0.0001;
 
         //Teste ação esperada
-        assertEquals(menorLance, menorLanceEsperado, delta);
+        assertEquals(menorLance, menorLanceEsperado, DELTA);
 
+    }
+
+    @Test
+    public void getDeveDevolverOsTresMaioresLancesQuandoRecebeExatoTresLances() {
+        CONSOLE.propoe(new Lance(PEDRO, 300.00));
+        CONSOLE.propoe(new Lance(new Usuario("Nice"), 500.00));
+        CONSOLE.propoe(new Lance(PEDRO, 700.00));
+
+        List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
+
+        assertEquals(3, tresMaioresLances.size());
+        assertEquals(700.00, tresMaioresLances.get(0).getValor(), DELTA);
+        assertEquals(500.00, tresMaioresLances.get(1).getValor(), DELTA);
+        assertEquals(300.00, tresMaioresLances.get(2).getValor(), DELTA);
     }
 }
