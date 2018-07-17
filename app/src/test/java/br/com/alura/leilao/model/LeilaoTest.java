@@ -124,4 +124,64 @@ public class LeilaoTest {
         assertEquals(500.00, tresMaioresLances.get(1).getValor(), DELTA);
         assertEquals(300.00, tresMaioresLances.get(2).getValor(), DELTA);
     }
+
+    @Test
+    public void getDeveDevolverOsTresMaioresLAncesQuandoNaoRecebeNenhumLance() {
+        List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
+
+        assertEquals(0, tresMaioresLances.size());
+    }
+
+    @Test
+    public void getDeveDevolverOsTresMaioresLAncesQuandoApenasUmLance() {
+        CONSOLE.propoe(new Lance(PEDRO, 200.00));
+
+        List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
+
+        assertEquals(1, tresMaioresLances.size());
+        assertEquals(200, tresMaioresLances.get(0).getValor(),DELTA);
+    }
+
+    @Test
+    public void getDeveDevolverOsTresMaioresLAncesQuandoRecebeDoisLances() {
+        CONSOLE.propoe(new Lance(PEDRO, 200.00));
+        CONSOLE.propoe(new Lance(new Usuario("Nice"), 300.00));
+
+        List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
+
+        assertEquals(2, tresMaioresLances.size());
+        assertEquals(300, tresMaioresLances.get(0).getValor(),DELTA);
+        assertEquals(200, tresMaioresLances.get(1).getValor(),DELTA);
+    }
+
+    @Test
+    public void getDeveDevolverOsTresMaioresLAncesQuandoMaisDeTresLances() {
+        CONSOLE.propoe(new Lance(PEDRO, 200.00));
+        CONSOLE.propoe(new Lance(PEDRO, 300.00));
+        CONSOLE.propoe(new Lance(new Usuario("Nice"), 400.00));
+        CONSOLE.propoe(new Lance(new Usuario("Nice"), 500.00));
+
+        List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
+
+        assertEquals(3, tresMaioresLances.size());
+        assertEquals(500, tresMaioresLances.get(0).getValor(),DELTA);
+        assertEquals(400, tresMaioresLances.get(1).getValor(),DELTA);
+        assertEquals(300, tresMaioresLances.get(2).getValor(),DELTA);
+    }
+
+    @Test
+    public void getDeveDevolverOsTresMaioresLAncesQuandoMaisDeQuatroLances() {
+        CONSOLE.propoe(new Lance(PEDRO, 200.00));
+        CONSOLE.propoe(new Lance(PEDRO, 300.00));
+        CONSOLE.propoe(new Lance(new Usuario("Nice"), 400.00));
+        CONSOLE.propoe(new Lance(new Usuario("Nice"), 500.00));
+        CONSOLE.propoe(new Lance(new Usuario("Nice"), 600.00));
+
+        List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
+
+        assertEquals(3, tresMaioresLances.size());
+        assertEquals(600, tresMaioresLances.get(0).getValor(),DELTA);
+        assertEquals(500, tresMaioresLances.get(1).getValor(),DELTA);
+        assertEquals(400, tresMaioresLances.get(2).getValor(),DELTA);
+    }
 }
