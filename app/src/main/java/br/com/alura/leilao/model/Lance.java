@@ -29,4 +29,23 @@ public class Lance implements Serializable, Comparable {
         }
         return 0;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Lance lance = (Lance) o;
+
+        return usuario.equals(lance.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return usuario.hashCode();
+    }
 }
