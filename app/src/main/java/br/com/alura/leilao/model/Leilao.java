@@ -18,36 +18,66 @@ public class Leilao implements Serializable {
     }
 
     public void propoe(Lance lance) {
-        double valorLance = lance.getValor();
-        if (maiorLance > valorLance) {
-            return;
-        }
-        if (!lances.isEmpty()) {
-            Usuario novoUsuario = lance.getUsuario();
-            Usuario ultimoUsuario = lances.get(0).getUsuario();
-            if (novoUsuario.equals(ultimoUsuario)) {
-                return;
-            }
-            int lancesDoUsuario = 0;
-            for (Lance l:lances) {
-                Usuario usuarioExistente = l.getUsuario();
-                if (usuarioExistente.equals(novoUsuario)) {
-                    lancesDoUsuario++;
-                    if (lancesDoUsuario == 5) {
-                        return;
-                    }
-                }
-            }
-        }
+        if (lanceNaoValido(lance)) return;
         lances.add(lance);
-        if(lances.size() == 1) {
-            maiorLance = valorLance;
-            menorLance = valorLance;
-            return;
-        }
+        double valorLance = lance.getValor();
+        if (defineMaiorMenorLanceParaPrimeiroLance(valorLance)) return;
         Collections.sort(lances);
         calculaMaiorLance(valorLance);
         calculaMenorLance(valorLance);
+    }
+
+    private boolean defineMaiorMenorLanceParaPrimeiroLance(double valorLance) {
+        if(lances.size() == 1) {
+            maiorLance = valorLance;
+            menorLance = valorLance;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean lanceNaoValido(Lance lance) {
+        double valorLance = lance.getValor();
+        if (lanceMenorQueUltimoLance(valorLance)) return true;
+        if (temLances()) {
+            Usuario novoUsuario = lance.getUsuario();
+            if (mesmoUsuarioDoUltimoLance(novoUsuario)) return true;
+            if (usuarioDeuMaisDeCincoLances(novoUsuario)) return true;
+        }
+        return false;
+    }
+
+    private boolean temLances() {
+        return !lances.isEmpty();
+    }
+
+    private boolean usuarioDeuMaisDeCincoLances(Usuario novoUsuario) {
+        int lancesDoUsuario = 0;
+        for (Lance l:lances) {
+            Usuario usuarioExistente = l.getUsuario();
+            if (usuarioExistente.equals(novoUsuario)) {
+                lancesDoUsuario++;
+                if (lancesDoUsuario == 5) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean mesmoUsuarioDoUltimoLance(Usuario novoUsuario) {
+        Usuario ultimoUsuario = lances.get(0).getUsuario();
+        if (novoUsuario.equals(ultimoUsuario)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean lanceMenorQueUltimoLance(double valorLance) {
+        if (maiorLance > valorLance) {
+            return true;
+        }
+        return false;
     }
 
     private void calculaMenorLance(double valorLance) {
