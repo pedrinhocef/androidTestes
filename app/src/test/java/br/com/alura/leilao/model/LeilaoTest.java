@@ -57,15 +57,19 @@ public class LeilaoTest {
     @Test
     public void getMaiorLanceQuandoRecebeMaisDeUmLanceEmOrdemDecrescenteDevolveMaiorLance() {
         CONSOLE.propoe(new Lance(PEDRO, 800.00));
-        CONSOLE.propoe(new Lance(new Usuario("PEDRO"), 500.00));
-
+        try {
+            CONSOLE.propoe(new Lance(new Usuario("PEDRO"), 500.00));
+            fail("Era esperado uma RuntimeException");
+        } catch (RuntimeException ex){
+            //teste passou
+        }
         //Executar ação esperada
-        double maiorLanceEsperado = CONSOLE.getMaiorLance();
+        double maiorLance = CONSOLE.getMaiorLance();
 
         double maiorEsperado = 800.00;
 
         //Teste ação esperada
-        assertEquals(maiorEsperado, maiorLanceEsperado, DELTA);
+        assertEquals(maiorEsperado, maiorLance, DELTA);
 
     }
 
@@ -188,11 +192,12 @@ public class LeilaoTest {
     @Test
     public void naoDeveAceitarLanceMenorDoQueLanceAtual() {
         CONSOLE.propoe(new Lance(PEDRO, 600.00));
-        CONSOLE.propoe(new Lance(PEDRO, 500.00));
-
-        int quatidadeLances = CONSOLE.quantidadeLances();
-
-        assertEquals(1, quatidadeLances);
+        try {
+            CONSOLE.propoe(new Lance(PEDRO, 500.00));
+            fail("Era esperado uma Runtimeexception");
+        } catch (RuntimeException ex) {
+            //teste passou
+        }
     }
 
     @Test
