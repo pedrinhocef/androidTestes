@@ -1,6 +1,7 @@
 package br.com.alura.leilao.model;
 
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
 import java.util.List;
 
@@ -61,15 +62,9 @@ public class LeilaoTest {
             CONSOLE.propoe(new Lance(new Usuario("PEDRO"), 500.00));
             fail("Era esperado uma RuntimeException");
         } catch (RuntimeException ex){
-            //teste passou
+            assertEquals("Lance menor que ultimo lance",ex.getMessage());
         }
-        //Executar ação esperada
-        double maiorLance = CONSOLE.getMaiorLance();
 
-        double maiorEsperado = 800.00;
-
-        //Teste ação esperada
-        assertEquals(maiorEsperado, maiorLance, DELTA);
 
     }
 
@@ -162,10 +157,10 @@ public class LeilaoTest {
     @Test
     public void getDeveDevolverOsTresMaioresLAncesQuandoTemMaisDeQuatroLances() {
         CONSOLE.propoe(new Lance(PEDRO, 200.00));
-        CONSOLE.propoe(new Lance(PEDRO, 300.00));
-        CONSOLE.propoe(new Lance(new Usuario("Nice"), 400.00));
-        CONSOLE.propoe(new Lance(new Usuario("Nice"), 500.00));
-        CONSOLE.propoe(new Lance(new Usuario("Nice"), 600.00));
+        CONSOLE.propoe(new Lance(NICE, 300.00));
+        CONSOLE.propoe(new Lance(PEDRO, 400.00));
+        CONSOLE.propoe(new Lance(NICE, 500.00));
+        CONSOLE.propoe(new Lance(PEDRO, 600.00));
 
         List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
 
@@ -203,11 +198,13 @@ public class LeilaoTest {
     @Test
     public void naoDeveAdicionarLanceQuandoForDomMesmoUsuarioOultimoLance() {
         CONSOLE.propoe(new Lance(PEDRO, 500));
-        CONSOLE.propoe(new Lance(PEDRO, 600));
+        try{
+            CONSOLE.propoe(new Lance(PEDRO, 600));
+            fail("Era esperado uma Runtimeexception");
 
-        int quantidadeLances = CONSOLE.quantidadeLances();
-
-        assertEquals(1, quantidadeLances);
+        } catch (RuntimeException ex) {
+            assertEquals("Mesmo usuario do ultimo lance", ex.getMessage());
+        }
     }
 
     @Test
@@ -222,12 +219,14 @@ public class LeilaoTest {
         CONSOLE.propoe(new Lance(NICE,800.00));
         CONSOLE.propoe(new Lance(PEDRO,900.00));
         CONSOLE.propoe(new Lance(NICE,1000.00));
-        CONSOLE.propoe(new Lance(PEDRO,1100.00));
-        CONSOLE.propoe(new Lance(NICE,1200.00));
+        try{
+            CONSOLE.propoe(new Lance(PEDRO,1100.00));
+            fail("Era esperado uma RuntimeException");
+        } catch (RuntimeException ex) {
+            assertEquals("Mesmo usuario deu cinco lances", ex.getMessage());
+        }
 
-        int quantidadeLances = CONSOLE.quantidadeLances();
 
-        assertEquals(10, quantidadeLances);
     }
 
 
