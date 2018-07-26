@@ -1,5 +1,6 @@
 package br.com.alura.leilao.model;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.internal.runners.statements.Fail;
 
@@ -9,6 +10,9 @@ import br.com.alura.leilao.exception.LanceMenorQueUltimoLanceException;
 import br.com.alura.leilao.exception.MesmoUsuarioDoUltimoLanceException;
 import br.com.alura.leilao.exception.UsuarioDeuMaisDeCincoLancesException;
 
+import static org.hamcrest.Matchers.both;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
 
 public class LeilaoTest {
@@ -27,7 +31,8 @@ public class LeilaoTest {
 
         //Teste ação esperada
 
-        assertEquals("Console", descricaoDevolvida);
+//        assertEquals("Console", descricaoDevolvida);
+        assertThat(descricaoDevolvida, equalTo("Console" ));
     }
 
     @Test
@@ -101,11 +106,17 @@ public class LeilaoTest {
         CONSOLE.propoe(new Lance(PEDRO, 700.00));
 
         List<Lance> tresMaioresLances = CONSOLE.tresMaioresLances();
+//        assertEquals(3, tresMaioresLances.size());
+//        assertEquals(700.00, tresMaioresLances.get(0).getValor(), DELTA);
+//        assertEquals(500.00, tresMaioresLances.get(1).getValor(), DELTA);
+//        assertEquals(300.00, tresMaioresLances.get(2).getValor(), DELTA);
 
-        assertEquals(3, tresMaioresLances.size());
-        assertEquals(700.00, tresMaioresLances.get(0).getValor(), DELTA);
-        assertEquals(500.00, tresMaioresLances.get(1).getValor(), DELTA);
-        assertEquals(300.00, tresMaioresLances.get(2).getValor(), DELTA);
+        assertThat(tresMaioresLances,
+                both(Matchers.<Lance>hasSize(3))
+                        .and(contains(
+                                new Lance(PEDRO, 300.00),
+                                new Lance(new Usuario("Nice"), 500.00),
+                                new Lance(PEDRO, 700.00))));
     }
 
     @Test

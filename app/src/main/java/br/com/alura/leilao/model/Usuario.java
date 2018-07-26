@@ -10,4 +10,5 @@ public class Usuario implements Serializable {
         this.nome = nome;
     }
 
+
 }
